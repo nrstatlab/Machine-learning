@@ -1,74 +1,92 @@
 # Machine Learning — Complete Self-Study Notes
 
-Single-page, self-contained study notes covering **23 machine learning algorithms**
-across four units, organised by the kind of supervision signal each one learns from.
+Self-study notes covering **23 machine learning algorithms** across four units,
+organised by the kind of supervision signal each one learns from.
 
 **Read them here → https://nrstatlab.github.io/Machine-Learning/**
 
-## What's inside
+## Structure
 
-Every algorithm is presented five times over, in five registers:
+Three levels — a hub, four unit pages, nine topic pages. No build step; every
+page is hand-authored HTML.
 
-| Register | What it gives you |
+```
+index.html                       Course hub
+├── unit1.html                   Supervised Learning
+│   ├── unit1-classification.html      Naive Bayes · Logistic Regression · KNN · SVM · Decision Tree
+│   └── unit1-regression.html          Linear · Polynomial · Ridge · Lasso · Random Forest
+├── unit2.html                   Unsupervised Learning
+│   ├── unit2-clustering.html          K-Means · DBSCAN · Hierarchical
+│   ├── unit2-association-rules.html   Apriori · FP-Growth
+│   └── unit2-anomaly-detection.html   Isolation Forest
+├── unit3.html                   Semi-Supervised Learning
+│   ├── unit3-inductive.html           Self-Training · Co-Training
+│   └── unit3-transductive.html        Label Propagation
+├── unit4.html                   Reinforcement Learning
+│   ├── unit4-model-free.html          Q-Learning · REINFORCE
+│   └── unit4-model-based.html         Dyna-Q · Value Iteration
+└── syllabus.html                Scope, prerequisites, and what is not covered
+```
+
+## What each algorithm gives you
+
+| Part | What it is for |
 |---|---|
 | **Definition** | What the method is, in one paragraph |
-| **Mathematics** | The objective, the update rule, the assumptions — rendered with MathJax |
-| **Brief explanation** | The intuition, the hyperparameters that matter, the standard variants |
-| **Assumptions & failure modes** | What the method takes for granted, and when it breaks |
+| **Mathematical foundation** | The objective, the update rule, the derivation — MathJax |
+| **How it works** | The intuition, the hyperparameters that matter, the named variants |
+| **Assumptions & failure modes** | What it takes for granted, and when it breaks |
 | **Worked examples** | Three domains — finance, agriculture, medicine — for every algorithm |
 | **Code** | Runnable Python *and* R, in switchable tabs |
 
-## The four units
-
-| Unit | Learns from | Algorithms |
-|---|---|---|
-| **1 · Supervised** | Labelled data | Naive Bayes · Logistic Regression · KNN · SVM · Decision Tree · Linear Regression · Polynomial Regression · Ridge · Lasso · Random Forest |
-| **2 · Unsupervised** | Unlabelled data | K-Means · DBSCAN · Hierarchical Clustering · Apriori · FP-Growth · Isolation Forest |
-| **3 · Semi-Supervised** | A few labels plus a large unlabelled pool | Self-Training · Co-Training *(inductive)* · Label Propagation *(transductive)* |
-| **4 · Reinforcement** | A reward signal | Q-Learning · REINFORCE *(model-free)* · Dyna-Q · Value Iteration *(model-based)* |
+Each topic page closes with an **At a Glance** table putting its algorithms side
+by side on assumptions and failure modes — the comparison that actually decides
+which method to reach for.
 
 ## Running the code
 
-Every Python pane is self-contained and generates its own data — nothing to download.
+Every Python pane is self-contained and simulates its own data — nothing to download.
 
 ```bash
 pip install numpy pandas scikit-learn mlxtend
 ```
 
-All 23 Python panes are verified to run end-to-end against numpy 2.4, pandas 2.x
-and scikit-learn 1.9. The R panes require `e1071`, `caret`, `class`, `rpart`,
-`randomForest`, `glmnet`, `cluster`, `dbscan`, `arules` and `arulesViz`
-depending on the card.
+All 23 Python panes are verified to run end to end against numpy 2.4, pandas 2.x
+and scikit-learn 1.9. The R panes use `e1071`, `caret`, `class`, `rpart`,
+`randomForest`, `glmnet`, `cluster`, `dbscan` and `arules`, depending on the
+algorithm.
 
 ## A note on the example figures
 
-The worked examples describe realistic settings, but the accompanying code
-**simulates** its data. Accuracy and AUC figures printed by a pane are properties
-of that simulation, not published results. Where an example evokes a real public
-dataset — Wisconsin Diagnostic Breast Cancer, Pima Indians Diabetes — the dataset
-is named so the figure can be reproduced.
+The worked examples describe realistic settings, but the code **simulates** its
+data, so any accuracy a pane prints is a property of that simulation, not a
+published result. Where an example uses a real public dataset — Wisconsin
+Diagnostic Breast Cancer, Pima Indians Diabetes — it is named so the figure can
+be reproduced.
 
 ## Repository layout
 
 ```
-index.html                 the notes (single file, no build step)
-ml_self_study_notes.html   redirect stub kept for old links
-AUDIT_REPORT.md            conceptual audit: findings and remediation plan
-CHANGELOG.md               what changed, and when
+index.html · unit*.html · syllabus.html   the notes
+css/styles.css                            shared stylesheet
+js/notes.js                               code tabs and copy button
+scripts/check_notes.py                    structural validator
+CLAUDE.md                                 authoring guide — read before editing
+AUDIT_REPORT.md                           conceptual audit: findings and plan
+CHANGELOG.md                              what changed, and when
+ml_self_study_notes.html                  redirect stub for old links
 ```
 
 ## Contributing
 
-The notes are one hand-authored HTML file with no build step — edit `index.html`
-directly. Two things to keep consistent when you do:
+Read `CLAUDE.md` first — it sets out the six-part algorithm template, the math
+and escaping conventions, and what to update when adding an algorithm. Then:
 
-- **Every card carries all five registers.** A new algorithm needs a definition,
-  mathematics, an explanation, an assumptions/failure-modes chip row, three
-  domain examples, and both language tabs.
-- **Escape code panes.** `<` and `&` inside `<pre><code>` must be written as
-  `&lt;` and `&amp;`, or R's `<-` will break strict parsers.
+```bash
+python scripts/check_notes.py
+```
 
-CI validates the HTML and checks internal anchors on every push.
+CI additionally validates the HTML, executes every Python pane, and checks links.
 
 ## Licence
 

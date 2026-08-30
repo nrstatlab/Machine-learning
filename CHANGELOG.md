@@ -1,5 +1,64 @@
 # Changelog
 
+## 2026-08-30 — Split into unit and topic pages
+
+The notes were a single 277 KB page holding all 23 algorithms. They are now a
+three-level site — hub, four unit pages, nine topic pages — following the same
+structure and visual system as `nrstatlab/Statistics-Major`, so the two read as
+one family.
+
+### New structure
+
+| Level | Pages | Holds |
+|---|---|---|
+| Hub | `index.html` | The four units, how the material is organised, the full topic table |
+| Unit | `unit1..4.html` | The idea behind the unit, learning outcomes, topic tiles, every algorithm in it |
+| Topic | `unit1-classification.html` and 8 more | The algorithms themselves |
+| Reference | `syllabus.html` | Full inventory, prerequisites, and an honest list of what is not covered |
+
+Largest page is now 58 KB rather than 277 KB, and no page carries more than five
+algorithms.
+
+### Adopted from the Statistics-Major system
+
+- Shared `css/styles.css` — same palette, typography and box vocabulary
+  (`.concept`, `.formula`, `.example`, `.tip`, `.banner`, `.unit-grid`,
+  `.page-nav`). ML-specific additions are appended in one clearly marked block.
+- Banner with breadcrumbs on every inner page; previous/next navigation
+  chaining all nine topic pages in reading order.
+- **Math delimiters changed from `$…$` to `\( … \)` and `\[ … \]`**, per that
+  repository's convention. A literal `$` is now always currency, which also
+  removes the whole class of MathJax/currency collisions the audit flagged
+  (T-7) — the `tex2jax_ignore` shields are gone with it.
+- `CLAUDE.md` authoring guide, adapted for this subject.
+
+### Kept, and carried across intact
+
+All 23 algorithms, 69 worked examples and 46 code panes, with every correction
+from the earlier audit. Each algorithm keeps its six parts, now as numbered
+`<h2>`/`<h3>` sections. Verified after the split: 23 of 23 Python panes still
+run end to end.
+
+### Also changed
+
+- Each topic page now ends with an **At a Glance** table putting its algorithms
+  side by side on assumptions and failure modes — derived from the chip rows,
+  and the comparison that decides which method to use.
+- Prism.js is gone. `pre` is styled directly, so the code panes no longer depend
+  on a CDN stylesheet loading — the root cause of finding T-1.
+- `js/notes.js` replaces the inline script: tab switching by delegation, arrow-key
+  movement between tabs, and a copy button that lives outside `<pre>`.
+- `scripts/check_notes.py` rewritten for the multi-page structure: it now checks
+  delimiter balance and stray `$` per page, cross-page links and anchors, code-tab
+  targets, shared-asset links, and that the algorithm inventory still totals 23.
+- CI validates every page rather than one file.
+
+### Removed
+
+- The single long page. Keeping a one-page copy alongside the split would
+  reintroduce exactly the duplication that finding P-1 was about.
+  `ml_self_study_notes.html` remains a redirect, so old links still work.
+
 ## 2026-08-30 — Conceptual audit and remediation
 
 A full concept-first audit of the notes (see `AUDIT_REPORT.md`), followed by the

@@ -24,6 +24,13 @@ internally coherent across its five representations, and reliably transmitted to
 > **G-5** (no SARSA), **G-7** (no neural-network card), and the choice of a licence.
 >
 > Read the sections below as the reasoning behind each change, not as a to-do list.
+>
+> **Structure has since changed too.** The single page this audit examined has been
+> split into a hub, four unit pages and nine topic pages, mirroring
+> `nrstatlab/Statistics-Major`. Findings that named the single file still describe
+> the defect and the fix; only the file they live in has moved. Two are now moot
+> by construction: **T-1** (Prism is gone — `pre` is styled directly) and **T-7**
+> (`$` is no longer a math delimiter anywhere).
 
 ---
 
