@@ -8,6 +8,23 @@
 question throughout is whether each **concept** is correctly stated, correctly located in the taxonomy,
 internally coherent across its five representations, and reliably transmitted to the reader.
 
+> ### ⚠ Status: remediated
+>
+> This report records the audit **as performed on commit `2519245`**. The corrective
+> findings below — every item in families **C**, **R**, **E**, **T** and **P**, plus
+> **G-6**, **G-8** and **G-9** — have since been fixed. See `CHANGELOG.md` for what
+> changed and `scripts/check_notes.py` for the checks that now guard against
+> regression. One further defect was found while verifying the fixes and is also
+> resolved: `SelfTrainingClassifier(base_estimator=…)` was removed in
+> scikit-learn 1.6, so card 3.1's Python pane no longer ran.
+>
+> **Still open** — the coverage gaps, which need new material rather than edits:
+> **G-1** (no dimensionality reduction or GMM/EM), **G-2** (no boosting),
+> **G-3** (no evaluation and model-selection unit), **G-4** (no preprocessing card),
+> **G-5** (no SARSA), **G-7** (no neural-network card), and the choice of a licence.
+>
+> Read the sections below as the reasoning behind each change, not as a to-do list.
+
 ---
 
 ## 1. Method

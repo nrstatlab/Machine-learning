@@ -1,0 +1,77 @@
+name: Validate notes
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  structure:
+    name: Structural checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check document structure
+        run: python scripts/check_notes.py
+
+  html:
+    name: HTML validity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate with html5validator
+        run: |
+          pip install html5validator
+          html5validator --root . --match 'index.html' --also-check-css
+
+  code-panes:
+    name: Python panes run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install the libraries the panes import
+        run: pip install numpy pandas scikit-learn mlxtend
+      - name: Extract and execute every Python pane
+        run: |
+          python - <<'PY'
+          import html, pathlib, re, subprocess, sys
+          src = pathlib.Path('index.html').read_text(encoding='utf-8')
+          panes = re.findall(
+              r'<div class="code-pane[^"]*" id="([^"]+)">\s*'
+              r'<pre class="language-python"><code class="language-python">(.*?)</code></pre>',
+              src, re.S)
+          out = pathlib.Path('_panes'); out.mkdir(exist_ok=True)
+          failed = []
+          for pid, body in panes:
+              f = out / f'{pid}.py'
+              f.write_text(html.unescape(body), encoding='utf-8')
+              r = subprocess.run([sys.executable, str(f)], capture_output=True, text=True)
+              if r.returncode:
+                  failed.append(pid)
+                  print(f'::error::{pid} failed\n{r.stderr[-2000:]}')
+              else:
+                  print(f'ok  {pid}')
+          print(f'\n{len(panes) - len(failed)}/{len(panes)} panes ran clean')
+          sys.exit(1 if failed else 0)
+          PY
+
+  links:
+    name: External links
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --exclude-mail --accept 200,206,429 index.html README.md
+          fail: true
